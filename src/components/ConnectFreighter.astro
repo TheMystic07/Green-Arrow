@@ -33,27 +33,21 @@
   }
 
   async function setLoggedIn(publicKey: string) {
-    if (ellipsis ){
-
-        ellipsis.innerHTML = `Signed in as ${publicKey}`;
-        // ellipsis.title = publicKey;
-    }
-    }
+    
+    ellipsis!.innerHTML = `Signed in as ${publicKey}`;
+    // ellipsis!.title = publicKey;
+  }
 
   if (await isAllowed()) {
-
-    if (wrap&&button  ){
-
-        const publicKey = await getPk();
-        if (publicKey) setLoggedIn(publicKey);
-        else wrap.innerHTML = 'Freighter is locked.<br>Sign in & refresh the page.';
-    } else {
-        button.addEventListener('click', async () => {
-            button.disabled = true;
-            await setAllowed();
-            const publicKey = await getPk();
-            await setLoggedIn(publicKey);
-        });
-    }
+    const publicKey = await getPk();
+    if (publicKey) setLoggedIn(publicKey);
+    else wrap!.innerHTML = 'Freighter is locked.<br>Sign in & refresh the page.';
+  } else {
+    button!.addEventListener('click', async () => {
+    //   button!.disabled = true;
+      await setAllowed();
+      const publicKey = await getPk();
+      await setLoggedIn(publicKey);
+    });
   }
 </script>

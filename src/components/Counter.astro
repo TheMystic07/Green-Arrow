@@ -19,24 +19,21 @@
     const publicKey = await getPublicKey();
     if (publicKey) incrementor.options.publicKey = publicKey;
   }
-  if(button && currentValue){
+  button!.addEventListener("click", async () => {
+    // button!.disabled = true;
+    button!.classList.add("loading");
+    currentValue!.innerHTML =
+      currentValue!.innerHTML +
+      '<span class="visually-hidden"> – updating…</span>';
 
-      button.addEventListener("click", async () => {
-          button.disabled = true;
-          button.classList.add("loading");
-          currentValue.innerHTML =
-          currentValue.innerHTML +
-          '<span class="visually-hidden"> – updating…</span>';
-          
-          const tx = await incrementor.increment();
-          const { result } = await tx.signAndSend({signTransaction});
-          
-          // Only use `innerHTML` with contract values you trust!
-          // Blindly using values from an untrusted contract opens your users to script injection attacks!
-          currentValue.innerHTML = result.toString();
-          
-          button.disabled = false;
-          button.classList.remove("loading");
-        });
-    }
+    const tx = await incrementor.increment();
+    const { result } = await tx.signAndSend({signTransaction});
+
+    // Only use `innerHTML` with contract values you trust!
+    // Blindly using values from an untrusted contract opens your users to script injection attacks!
+    currentValue!.innerHTML = result.toString();
+
+    // button!.disabled = false;
+    button!.classList.remove("loading");
+  });
 </script>
